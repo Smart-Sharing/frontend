@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
+import { useConfig } from "../../ConfigContext";
 
 interface ApiErrorResponse {
   error: string;
 }
 
 const Login: React.FC = () => {
+  const config = useConfig();
   const navigate = useNavigate();
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -16,14 +18,13 @@ const Login: React.FC = () => {
 
   const fetchLogin = async () => {
     try {
-      const response = await axios.post("http://91.236.197.212:8080/login", {
+      console.log("config: ", config);
+      const response = await axios.post(`${config.api.backend_url}/login`, {
         phone_number: phoneNumber,
         password: password,
       });
 
       if (response.data.token) {
-        // Set the token as a cookie
-        console.log("Token set in cookies");
         Cookie.set("authToken", response.data.token);
         navigate("/machines");
       } else if (response.data.error) {
@@ -32,20 +33,16 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Обработка ошибки Axios
         const axiosError = error as AxiosError<ApiErrorResponse>;
         const status = axiosError.response?.status;
         const message = axiosError.response?.data?.error || axiosError.message;
 
         if (status) {
-          // Можно обрабатывать статус-коды
           console.error(`Request failed with status ${status}`);
         }
 
-        // Установка сообщения об ошибке
         setError(message);
       } else {
-        // Обработка других типов ошибок
         console.error("An unexpected error occurred:", error);
         setError("An unexpected error occurred");
       }
@@ -75,7 +72,7 @@ const Login: React.FC = () => {
             <span className="block sm:inline"> {error}</span>
             <span
               className="absolute top-0 bottom-0 right-0 px-4 py-3"
-              onClick={() => setError(null)} // Close alert on click
+              onClick={() => setError(null)}
             >
               <svg
                 className="fill-current h-6 w-6 text-red-500"

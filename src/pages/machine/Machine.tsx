@@ -5,11 +5,13 @@ import MachineInfo, {
 import ControlButtons from "../../components/machines/ControlButtons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { MachineState } from "../../components/machines/types";
+import { useConfig } from "../../ConfigContext";
 
 import Cookies from "js-cookie";
 import axios from "axios";
 
 const Machine: React.FC = () => {
+  const config = useConfig();
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -30,7 +32,7 @@ const Machine: React.FC = () => {
         }
 
         const response = await axios.get(
-          `http://91.236.197.212:8080/get_machine?machine_id=${machineId}`,
+          `${config.api.backend_url}/get_machine?machine_id=${machineId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -50,18 +52,18 @@ const Machine: React.FC = () => {
     };
 
     fetchMachineInfo();
-  }, [navigate, loading, machineId, token]);
+  }, [navigate, config, loading, machineId, token]);
 
   const sendUnlockMachine = async (machineId: string) => {
     try {
-      const url = "http://91.236.197.212:8080/unlock_machine"; // Replace with your API endpoint
+      const url = `${config.api.backend_url}/unlock_machine`;
       const data = {
         machine_id: machineId,
       };
 
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Example for an authorization token
+        Authorization: `Bearer ${token}`,
       };
 
       const response = await axios.post(url, data, { headers });
@@ -80,14 +82,14 @@ const Machine: React.FC = () => {
 
   const sendLockMachine = async (machineId: string) => {
     try {
-      const url = "http://91.236.197.212:8080/lock_machine"; // Replace with your API endpoint
+      const url = `${config.api.backend_url}/lock_machine`;
       const data = {
         machine_id: machineId,
       };
 
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Example for an authorization token
+        Authorization: `Bearer ${token}`,
       };
 
       const response = await axios.post(url, data, { headers });
