@@ -25,7 +25,7 @@ export const loadConfigOld = (): AppConfig => {
 export const loadConfig = (): AppConfig => {
   return {
     api: {
-      backend_url: "http://91.236.197.212:8080",
+      backend_url: "http://localhost:8080",
     },
   };
 };

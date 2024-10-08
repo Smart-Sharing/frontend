@@ -80,6 +80,58 @@ const Machine: React.FC = () => {
     }
   };
 
+  const sendStopMachine = async (machineId: string) => {
+    try {
+      const url = `${config.api.backend_url}/stop_machine`;
+      const data = {
+        machine_id: machineId,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.post(url, data, { headers });
+      console.log(response);
+      console.log(info);
+
+      if (info !== null) {
+        info.state = MachineState.Stopped;
+        setInfo(info);
+      }
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendUnstopMachine = async (machineId: string) => {
+    try {
+      const url = `${config.api.backend_url}/unstop_machine`;
+      const data = {
+        machine_id: machineId,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.post(url, data, { headers });
+      console.log(response);
+      console.log(info);
+
+      if (info !== null) {
+        info.state = MachineState.InUse;
+        setInfo(info);
+      }
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const sendLockMachine = async (machineId: string) => {
     try {
       const url = `${config.api.backend_url}/lock_machine`;
@@ -113,7 +165,17 @@ const Machine: React.FC = () => {
   };
 
   const handleStop = () => {
-    // some logic
+    if (!machineId) {
+      return <p className="text-center text-gray-500">Wrong machine 'id'</p>;
+    }
+    sendStopMachine(machineId);
+  };
+
+  const handleUnstop = () => {
+    if (!machineId) {
+      return <p className="text-center text-gray-500">Wrong machine 'id'</p>;
+    }
+    sendUnstopMachine(machineId);
   };
 
   const handleFinish = () => {
@@ -148,6 +210,7 @@ const Machine: React.FC = () => {
           machineState={info?.state}
           onStart={handleStart}
           onStop={handleStop}
+          onUnstop={handleUnstop}
           onFinish={handleFinish}
         />
       </div>

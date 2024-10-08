@@ -7,6 +7,6 @@ export enum Status {
 
 export enum MachineState {
   Free = 0,
-  InUse = 1,
-  Stopped = 2,
+  Stopped = 1,
+  InUse = 2,
 }
