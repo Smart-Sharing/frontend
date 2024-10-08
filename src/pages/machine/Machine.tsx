@@ -76,8 +76,35 @@ const Machine: React.FC = () => {
       }
       setLoading(true);
     } catch (error) {
-      setError(error.response.data.error);
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        // Проверяем, есть ли у ошибки ответ от сервера
+        if (error.response) {
+          const { status, data } = error.response;
+
+          // Устанавливаем сообщение об ошибке в стейт
+          if (data && data.error) {
+            setError(data.error); // Сообщение от сервера
+          } else {
+            setError(`Request failed with status code ${status}`); // Общая ошибка
+          }
+
+          console.error(`Error: ${status} - ${data?.error || "Unknown error"}`);
+        } else if (error.request) {
+          // Ошибка при отправке запроса (нет ответа)
+          setError(
+            "No response received from the server. Please try again later."
+          );
+          console.error("No response from server:", error.request);
+        } else {
+          // Ошибка при настройке запроса
+          setError(`Request setup error: ${error.message}`);
+          console.error("Request error:", error.message);
+        }
+      } else {
+        // Любая другая ошибка
+        setError("An unknown error occurred.");
+        console.error("Unknown error:", error);
+      }
     }
   };
 
@@ -103,8 +130,35 @@ const Machine: React.FC = () => {
       }
       setLoading(true);
     } catch (error) {
-      setError(error.response.data.error);
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        // Проверяем, есть ли у ошибки ответ от сервера
+        if (error.response) {
+          const { status, data } = error.response;
+
+          // Устанавливаем сообщение об ошибке в стейт
+          if (data && data.error) {
+            setError(data.error); // Сообщение от сервера
+          } else {
+            setError(`Request failed with status code ${status}`); // Общая ошибка
+          }
+
+          console.error(`Error: ${status} - ${data?.error || "Unknown error"}`);
+        } else if (error.request) {
+          // Ошибка при отправке запроса (нет ответа)
+          setError(
+            "No response received from the server. Please try again later."
+          );
+          console.error("No response from server:", error.request);
+        } else {
+          // Ошибка при настройке запроса
+          setError(`Request setup error: ${error.message}`);
+          console.error("Request error:", error.message);
+        }
+      } else {
+        // Любая другая ошибка
+        setError("An unknown error occurred.");
+        console.error("Unknown error:", error);
+      }
     }
   };
 
@@ -130,8 +184,35 @@ const Machine: React.FC = () => {
       }
       setLoading(true);
     } catch (error) {
-      setError(error.response.data.error);
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        // Проверяем, есть ли у ошибки ответ от сервера
+        if (error.response) {
+          const { status, data } = error.response;
+
+          // Устанавливаем сообщение об ошибке в стейт
+          if (data && data.error) {
+            setError(data.error); // Сообщение от сервера
+          } else {
+            setError(`Request failed with status code ${status}`); // Общая ошибка
+          }
+
+          console.error(`Error: ${status} - ${data?.error || "Unknown error"}`);
+        } else if (error.request) {
+          // Ошибка при отправке запроса (нет ответа)
+          setError(
+            "No response received from the server. Please try again later."
+          );
+          console.error("No response from server:", error.request);
+        } else {
+          // Ошибка при настройке запроса
+          setError(`Request setup error: ${error.message}`);
+          console.error("Request error:", error.message);
+        }
+      } else {
+        // Любая другая ошибка
+        setError("An unknown error occurred.");
+        console.error("Unknown error:", error);
+      }
     }
   };
 
@@ -156,9 +237,35 @@ const Machine: React.FC = () => {
       }
       setLoading(true);
     } catch (error) {
-      setError(error.response.data.error);
-      setError(error);
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        // Проверяем, есть ли у ошибки ответ от сервера
+        if (error.response) {
+          const { status, data } = error.response;
+
+          // Устанавливаем сообщение об ошибке в стейт
+          if (data && data.error) {
+            setError(data.error); // Сообщение от сервера
+          } else {
+            setError(`Request failed with status code ${status}`); // Общая ошибка
+          }
+
+          console.error(`Error: ${status} - ${data?.error || "Unknown error"}`);
+        } else if (error.request) {
+          // Ошибка при отправке запроса (нет ответа)
+          setError(
+            "No response received from the server. Please try again later."
+          );
+          console.error("No response from server:", error.request);
+        } else {
+          // Ошибка при настройке запроса
+          setError(`Request setup error: ${error.message}`);
+          console.error("Request error:", error.message);
+        }
+      } else {
+        // Любая другая ошибка
+        setError("An unknown error occurred.");
+        console.error("Unknown error:", error);
+      }
     }
   };
 
